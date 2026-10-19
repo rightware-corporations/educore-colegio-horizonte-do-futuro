@@ -1,0 +1,71 @@
+name: Bootstrap Horizonte EduCore base
+
+on:
+  push:
+    paths:
+      - ".github/workflows/bootstrap-horizonte.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Import stable EduCore presentation base
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch tenant/colegio-pascoa-live \
+            https://github.com/aevumlux1-rwbot/educore.v1.1.git \
+            /tmp/educore-base
+
+          rsync -a --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            /tmp/educore-base/ ./
+
+          mkdir -p docs
+          cat > docs/HORIZONTE_MVP_BOOTSTRAP.md <<'EOF'
+# EduCore — Colégio Horizonte do Futuro — MVP Bootstrap
+
+This repository is an isolated commercial MVP project for Colégio Horizonte do Futuro.
+
+## Source foundation
+
+The initial code foundation was imported from the previously validated EduCore presentation codebase used for Colégio Páscoa so that the internal EduCore experience, routing, login flow, responsive work, and deployment learnings can be reused quickly.
+
+## Important boundary
+
+The imported Páscoa branding, assets, hostname rules, metadata, and school-specific public experience are temporary bootstrap material only.
+
+They MUST be replaced before this project is deployed or presented.
+
+This repository is intentionally isolated from other school projects:
+
+- one school;
+- one repository;
+- one production branch;
+- one deployment;
+- one domain.
+
+Do not introduce a multi-school tenant switcher into this MVP repository.
+
+## Next implementation step
+
+Study the real identity and assets of Colégio Horizonte do Futuro, then replace all school-specific Páscoa presentation material while preserving the shared EduCore internal system.
+EOF
+
+          rm -f .github/workflows/bootstrap-horizonte.yml
+
+          git config user.name "rightware-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Bootstrap EduCore foundation for Colégio Horizonte do Futuro"
+          git push origin HEAD:main
