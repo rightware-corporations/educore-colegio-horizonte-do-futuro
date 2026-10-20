@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, BookOpen, Building2, GraduationCap, Landmark, UserRoundCheck, Users, Wallet } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpen, Building2, GraduationCap, Headset, Landmark, UserRoundCheck, Users, Wallet } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -16,6 +16,7 @@ const ROLE_META: Record<UserRole, { label: string; description: string; icon: Lu
   teacher: { label: 'Professor', description: 'Turmas, avaliações e conteúdos', icon: BookOpen },
   pedagogy: { label: 'Pedagogia', description: 'Coordenação académica', icon: Landmark },
   executive: { label: 'Direcção', description: 'Visão institucional', icon: Building2 },
+  reception: { label: 'Receção', description: 'Atendimento, informações e encaminhamentos', icon: Headset },
   secretary: { label: 'Secretaria', description: 'Matrículas e documentos', icon: UserRoundCheck },
   finance: { label: 'Finanças', description: 'Tesouraria e pagamentos', icon: Wallet },
 };
