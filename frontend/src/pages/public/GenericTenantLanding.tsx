@@ -114,7 +114,7 @@ export default function GenericTenantLanding() {
         </section>
       </main>
 
-      <footer className="bg-[#061b34] px-6 py-12 text-white sm:px-10 lg:px-16">
+      <footer className="bg-[#061b34] bg-[url('/school/horizon-graphic.svg')] bg-cover bg-center px-6 py-12 text-white sm:px-10 lg:px-16">
         <div className="mx-auto flex max-w-[1320px] flex-col justify-between gap-8 md:flex-row md:items-end">
           <div><p className="text-xl font-black uppercase leading-tight tracking-tight">Colégio<br />Horizonte do Futuro</p><p className="mt-5 text-xs text-white/55">Construindo caminhos para o futuro.</p></div>
           <div className="flex flex-col gap-4 text-xs font-semibold text-white/75 md:items-end"><Link to="/login" className="hover:text-white">Portal escolar</Link><span className="flex items-center gap-2"><MapPin size={14} /> Moçambique</span><span>Powered by EduCore · RIGHTWARE</span></div>
