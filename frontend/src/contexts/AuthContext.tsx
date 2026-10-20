@@ -16,13 +16,13 @@ const STORAGE_KEY = 'eduos.auth';
 
 const MOCK_USERS: Record<UserRole, UserProfile> = {
   student: { id: 'ALU-001', name: 'Amélia Mondlane', email: 'amelia@escola.mz', role: 'student', institution: 'Colégio Horizonte do Futuro' },
-  guardian: { id: 'ENC-001', name: 'José Mondlane', email: 'jose@familia.mz', role: 'guardian', institution: 'Colégio Deus Connosco' },
-  teacher: { id: 'PROF-001', name: 'Prof. António Magaia', email: 'antonio@escola.mz', role: 'teacher', institution: 'Colégio Deus Connosco' },
-  pedagogy: { id: 'PED-001', name: 'Prof.ª Ana Costa', email: 'ana@escola.mz', role: 'pedagogy', institution: 'Colégio Deus Connosco' },
-  executive: { id: 'DIR-001', name: 'Dr. Manuel Sitoe', email: 'manuel@escola.mz', role: 'executive', institution: 'Colégio Deus Connosco' },
+  guardian: { id: 'ENC-001', name: 'José Mondlane', email: 'jose@familia.mz', role: 'guardian', institution: 'Colégio Horizonte do Futuro' },
+  teacher: { id: 'PROF-001', name: 'Prof. António Magaia', email: 'antonio@escola.mz', role: 'teacher', institution: 'Colégio Horizonte do Futuro' },
+  pedagogy: { id: 'PED-001', name: 'Prof.ª Ana Costa', email: 'ana@escola.mz', role: 'pedagogy', institution: 'Colégio Horizonte do Futuro' },
+  executive: { id: 'DIR-001', name: 'Dr. Manuel Sitoe', email: 'manuel@escola.mz', role: 'executive', institution: 'Colégio Horizonte do Futuro' },
   reception: { id: 'REC-001', name: 'Operador de Receção', email: 'rececao@exemplo.mz', role: 'reception', institution: 'Colégio Horizonte do Futuro' },
-  secretary: { id: 'SEC-001', name: 'Laura Tembe', email: 'laura@escola.mz', role: 'secretary', institution: 'Colégio Deus Connosco' },
-  finance: { id: 'FIN-001', name: 'Carlos Mendes', email: 'carlos@escola.mz', role: 'finance', institution: 'Colégio Deus Connosco' },
+  secretary: { id: 'SEC-001', name: 'Laura Tembe', email: 'laura@escola.mz', role: 'secretary', institution: 'Colégio Horizonte do Futuro' },
+  finance: { id: 'FIN-001', name: 'Carlos Mendes', email: 'carlos@escola.mz', role: 'finance', institution: 'Colégio Horizonte do Futuro' },
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
