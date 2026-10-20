@@ -9,16 +9,19 @@ import { Link } from 'react-router-dom';
  * This presentation layer does not change the EduCore internal portal.
  */
 const MEDIA = {
-  campus: '/school/campus.jpg',
-  students: '/school/students.jpg',
-  classroom: '/school/classroom.jpg',
-  detail: '/school/facilities.jpg',
+  campus: '/school/campus.webp',
+  students: '/school/students.webp',
+  classroom: '/school/classroom.webp',
+  detail: '/school/facilities.webp',
 };
 
 function Photo({ src, alt, className = '', overlay = true }: { src: string; alt: string; className?: string; overlay?: boolean }) {
   const [loaded, setLoaded] = useState(false);
+  const mobileSrc = src === MEDIA.campus ? '/school/campus-mobile.webp' : src === MEDIA.students ? '/school/students-mobile.webp' : undefined;
   return (
     <div className={`absolute inset-0 overflow-hidden bg-gradient-to-br from-[#173d68] via-[#184e78] to-[#eeb850] ${className}`}>
+      <picture>
+        {mobileSrc && <source media="(max-width: 639px)" srcSet={mobileSrc} />}
       <img
         src={src}
         alt={alt}
@@ -27,6 +30,7 @@ function Photo({ src, alt, className = '', overlay = true }: { src: string; alt:
         onError={() => setLoaded(false)}
         className={`h-full w-full object-cover transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
       />
+      </picture>
       {overlay && <div className="absolute inset-0 bg-gradient-to-r from-[#051b35]/90 via-[#052a50]/45 to-[#052a50]/10" />}
     </div>
   );
@@ -39,7 +43,7 @@ export default function GenericTenantLanding() {
       <header className="absolute inset-x-0 top-0 z-30 border-b border-white/25 text-white">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-5 sm:px-8 lg:px-14">
           <Link to="/" className="flex items-center gap-3" aria-label="Colégio Horizonte do Futuro — início">
-            <span className="flex h-11 w-11 items-center justify-center rounded-full border border-amber-300/70 bg-[#092852]/70 text-xl font-black text-[#ffd139]">H</span>
+            <img src="/school/favicon.svg" alt="" className="h-11 w-11 rounded-full border border-white/25 bg-white p-1 object-contain" />
             <span className="max-w-[172px] text-[11px] font-extrabold uppercase leading-[1.25] tracking-[0.14em] sm:text-xs">Colégio<br />Horizonte do Futuro</span>
           </Link>
           <nav className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-[0.12em] lg:flex" aria-label="Navegação principal">
@@ -64,7 +68,7 @@ export default function GenericTenantLanding() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#061d36]/90 via-transparent to-[#061d36]/20" />
           <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 pb-20 pt-40 sm:px-10 lg:px-16 lg:pb-28">
             <p className="mb-5 flex items-center gap-3 text-[11px] font-extrabold uppercase tracking-[0.3em] text-[#ffca4f]"><span className="h-[2px] w-10 bg-[#ffca4f]" /> Educação · Percurso · Futuro</p>
-            <h1 className="max-w-5xl text-[clamp(3.35rem,9.3vw,9rem)] font-black leading-[0.91] tracking-[-0.065em]">Um horizonte<br /><span className="text-[#ffc13d]">de possibilidades.</span></h1>
+            <h1 className="max-w-5xl text-[clamp(2.2rem,8vw,9rem)] font-black leading-[0.91] tracking-[-0.065em]">Um horizonte<br /><span className="text-[#ffc13d]">de possibilidades.</span></h1>
             <div className="mt-9 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <p className="max-w-lg text-base leading-relaxed text-white/85 sm:text-lg">Colégio Horizonte do Futuro. Um espaço para aprender, crescer e construir novos caminhos.</p>
               <a href="#colegio" className="inline-flex w-fit items-center gap-3 border-b border-[#ffc13d] pb-2 text-xs font-bold uppercase tracking-[0.16em]">Descobrir o colégio <ArrowDownRight size={19} /></a>
@@ -84,7 +88,7 @@ export default function GenericTenantLanding() {
           <Photo src={MEDIA.students} alt="Alunos do Colégio Horizonte do Futuro no seu ambiente escolar" />
           <div className="relative z-10 mx-auto flex min-h-[660px] max-w-[1440px] flex-col justify-end px-6 pb-20 pt-28 sm:px-10 lg:min-h-[780px] lg:px-16 lg:pb-28">
             <p className="mb-5 text-xs font-extrabold uppercase tracking-[0.2em] text-[#ffcd51]">02 / Vida escolar</p>
-            <h2 className="max-w-4xl text-[clamp(3.2rem,7.8vw,8rem)] font-black leading-[0.94] tracking-[-0.06em]">O futuro tem<br />muitos rostos.</h2>
+            <h2 className="max-w-4xl text-[clamp(2.45rem,7.8vw,8rem)] font-black leading-[0.94] tracking-[-0.06em]">O futuro tem<br />muitos rostos.</h2>
             <p className="mt-8 max-w-lg text-base leading-8 text-white/85">Mais do que instalações, uma escola é feita das pessoas e das experiências que dão sentido a cada jornada.</p>
           </div>
         </section>
