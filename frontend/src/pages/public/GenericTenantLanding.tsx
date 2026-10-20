@@ -187,9 +187,9 @@ export default function GenericTenantLanding() {
               </div>
             </>
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#042954]/95 via-[#052d58]/80 to-[#052d58]/5 sm:from-[#042954]/95 sm:via-[#052d58]/70 sm:to-transparent" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#042954]/95 via-[#052d58]/75 to-[#052d58]/20 sm:bg-gradient-to-r sm:from-[#042954]/95 sm:via-[#052d58]/70 sm:to-transparent" aria-hidden="true" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#052954]/35 via-transparent to-transparent sm:hidden" aria-hidden="true" />
-          <div className="relative z-10 mx-auto flex h-full max-w-[1560px] items-center px-6 pb-12 sm:px-10 lg:px-[5.1%]">
+          <div className="relative z-10 mx-auto flex h-full max-w-[1560px] items-end px-6 pb-[105px] sm:items-center sm:px-10 sm:pb-12 lg:px-[5.1%]">
             <div className="max-w-[700px]">
               <h1 id="horizonte-title" className="font-heading text-[clamp(2.45rem,5.2vw,4.4rem)] font-extrabold leading-[1.11] tracking-[-0.045em] drop-shadow-sm">
                 O futuro do seu filho<br /><span className="text-[#ffae21]">começa aqui!</span>
