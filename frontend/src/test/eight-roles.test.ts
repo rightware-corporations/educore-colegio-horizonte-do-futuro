@@ -7,7 +7,7 @@ describe('EduCore Horizonte — oito perfis', () => {
   it('mantém exactamente os oito perfis aprovados', () => {
     expect(ALL_TENANT_ROLES).toEqual([
       'student', 'guardian', 'teacher', 'pedagogy',
-      'reception', 'executive', 'secretary', 'finance',
+      'reception', 'secretary', 'finance', 'executive',
     ]);
     expect(DEFAULT_TENANTS[0].enabledRoles).toEqual(ALL_TENANT_ROLES);
   });
