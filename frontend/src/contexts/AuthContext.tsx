@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (parsed.user && typeof parsed.role === 'string' && Object.prototype.hasOwnProperty.call(MOCK_USERS, parsed.role)) {
-          setUser({ ...parsed.user, institution: 'Colégio Horizonte do Futuro' });
+          setUser({ ...parsed.user, role: parsed.role as UserRole, institution: 'Colégio Horizonte do Futuro' });
           setRole(parsed.role as UserRole);
         }
       }
