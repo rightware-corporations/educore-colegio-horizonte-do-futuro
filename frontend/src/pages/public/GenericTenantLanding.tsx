@@ -1,176 +1,308 @@
 import { useState } from 'react';
-import { ArrowRight, BookOpenText, GraduationCap, Menu, ShieldCheck, TrendingUp, Users, X } from 'lucide-react';
+import { ArrowRight, BookOpen, GraduationCap, Menu, ShieldCheck, TrendingUp, UsersRound, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const media = {
+/**
+ * Horizonte — approved visual reference (20/10/2026):
+ * white navigation, documentary image-led hero, curved orange/navy transition,
+ * compact horizontal values and the three real spaces directly below.
+ *
+ * The HQ WebP files can replace the preliminary originals in /public/school/
+ * without changing component structure. A valid existing asset is used while
+ * an HQ-only asset has not yet been installed locally.
+ */
+const MEDIA = {
+  logo: '/school/logo.webp',
   campus: '/school/campus.webp',
+  hero: '/school/hero.webp',
+  heroMobile: '/school/hero-mobile.webp',
   students: '/school/students.webp',
   classroom: '/school/classroom.webp',
+  staircase: '/school/staircase.webp',
+  corridor: '/school/corridor.webp',
   facilities: '/school/facilities.webp',
-  logo: '/school/logo.webp',
 };
 
-function Brand({ onDark = false }: { onDark?: boolean }) {
-  const [imageError, setImageError] = useState(false);
+function SchoolPhoto({
+  src,
+  fallbackSrc,
+  alt,
+  className = '',
+  eager = false,
+  position = 'center',
+}: {
+  src: string;
+  fallbackSrc?: string;
+  alt: string;
+  className?: string;
+  eager?: boolean;
+  position?: string;
+}) {
+  const [actualSrc, setActualSrc] = useState(src);
+  const [failed, setFailed] = useState(false);
   return (
-    <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="Colégio Horizonte do Futuro — página inicial">
-      <span className="flex h-12 w-14 flex-none items-center justify-center overflow-hidden rounded-sm bg-white p-0.5 sm:h-14 sm:w-16">
-        <img src={imageError ? '/school/favicon.svg' : media.logo} onError={() => setImageError(true)} alt="" className="h-full w-full object-contain" />
-      </span>
-      <span className={onDark ? 'text-sm font-extrabold uppercase leading-[1.13] tracking-tight text-white sm:text-base' : 'text-sm font-extrabold uppercase leading-[1.13] tracking-tight text-[#0a2c56] sm:text-base'}>
+    <div className={'absolute inset-0 overflow-hidden bg-[#0c3159] ' + className}>
+      {!failed && (
+        <img
+          src={actualSrc}
+          alt={alt}
+          loading={eager ? 'eager' : 'lazy'}
+          fetchPriority={eager ? 'high' : 'auto'}
+          decoding="async"
+          onError={() => {
+            if (fallbackSrc && actualSrc !== fallbackSrc) setActualSrc(fallbackSrc);
+            else setFailed(true);
+          }}
+          className="h-full w-full object-cover"
+          style={{ objectPosition: position }}
+        />
+      )}
+      {failed && <div className="absolute inset-0 bg-gradient-to-br from-[#092d57] to-[#b76b20]" aria-hidden="true" />}
+    </div>
+  );
+}
+
+function SchoolBrand({ inverse = false }: { inverse?: boolean }) {
+  const [logoFailed, setLogoFailed] = useState(false);
+  return (
+    <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="Colégio Horizonte do Futuro — início">
+      <img
+        src={logoFailed ? '/school/favicon.svg' : MEDIA.logo}
+        onError={() => setLogoFailed(true)}
+        alt="Símbolo do Colégio Horizonte do Futuro"
+        className="h-[51px] w-[59px] shrink-0 object-contain sm:h-[59px] sm:w-[67px]"
+      />
+      <span className={'text-[13px] font-extrabold uppercase leading-[1.14] tracking-[-0.02em] sm:text-[16px] ' + (inverse ? 'text-white' : 'text-[#082c58]')}>
         Colégio Horizonte<br />do Futuro
       </span>
     </Link>
   );
 }
 
-function SchoolPhoto({
-  src, mobileSrc, alt, className = '', imageClassName = '', priority = false,
-}: {
-  src: string; mobileSrc?: string; alt: string; className?: string; imageClassName?: string; priority?: boolean;
-}) {
-  const [hasError, setHasError] = useState(false);
-  return (
-    <div className={'relative h-full w-full overflow-hidden bg-gradient-to-br from-[#0d3769] via-[#28618b] to-[#edb64a] ' + className}>
-      {!hasError && (
-        <picture className="absolute inset-0 block">
-          {mobileSrc && <source media="(max-width: 639px)" srcSet={mobileSrc} />}
-          <img
-            src={src}
-            alt={alt}
-            loading={priority ? 'eager' : 'lazy'}
-            fetchPriority={priority ? 'high' : 'auto'}
-            onError={() => setHasError(true)}
-            className={'h-full w-full object-cover ' + imageClassName}
-          />
-        </picture>
-      )}
-      {hasError && <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_12%,#ffc24c80,transparent_48%)]" aria-hidden="true" />}
-    </div>
-  );
-}
+const highlights = [
+  { icon: GraduationCap, title: 'Educação de Qualidade', description: 'Uma base sólida para grandes conquistas.' },
+  { icon: UsersRound, title: 'Disciplina e Valores', description: 'Formação académica e humana.' },
+  { icon: ShieldCheck, title: 'Ambiente Seguro', description: 'Um espaço cuidado para aprender e crescer.' },
+  { icon: TrendingUp, title: 'Acompanhamento do Aluno', description: 'Mais perto de cada etapa do desenvolvimento.' },
+];
 
-const benefits = [
-  { icon: GraduationCap, title: 'Educação de qualidade', description: 'Aprender hoje, preparar o amanhã.' },
-  { icon: Users, title: 'Disciplina e valores', description: 'Respeito e formação para a vida.' },
-  { icon: ShieldCheck, title: 'Ambiente seguro', description: 'Um espaço dedicado aos alunos.' },
-  { icon: TrendingUp, title: 'Acompanhamento do aluno', description: 'Atenção ao percurso escolar.' },
+const spaces = [
+  {
+    title: 'Salas de aula modernas',
+    description: 'Espaços preparados para a aprendizagem.',
+    icon: BookOpen,
+    image: MEDIA.classroom,
+    fallback: MEDIA.classroom,
+    alt: 'Sala de aula apresentada no material do colégio',
+    position: 'center',
+  },
+  {
+    title: 'Infra-estrutura segura',
+    description: 'Os espaços interiores do colégio.',
+    icon: ShieldCheck,
+    image: MEDIA.staircase,
+    fallback: MEDIA.facilities,
+    alt: 'Escadaria apresentada no material do colégio',
+    position: 'center',
+  },
+  {
+    title: 'Ambiente confortável',
+    description: 'Um espaço de acolhimento e aprendizagem.',
+    icon: UsersRound,
+    image: MEDIA.corridor,
+    fallback: MEDIA.facilities,
+    alt: 'Corredor apresentado no material do colégio',
+    position: 'center',
+  },
 ];
 
 export default function GenericTenantLanding() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [heroFailed, setHeroFailed] = useState(false);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white text-[#082d59]">
-      <header className="relative z-50 bg-white shadow-[0_1px_12px_#082d5910]">
-        <div className="mx-auto flex min-h-[76px] max-w-[1560px] items-center justify-between gap-5 px-5 py-3 sm:px-9 lg:px-12">
-          <Brand />
-          <nav className="hidden items-center gap-7 xl:gap-9 lg:flex" aria-label="Navegação principal">
-            <a href="#inicio" className="border-b-2 border-[#f6a721] py-2 text-sm font-bold text-[#082d59]">Início</a>
-            <a href="#sobre" className="py-2 text-sm font-medium hover:text-[#e68f0d]">Sobre nós</a>
-            <a href="#colegio" className="py-2 text-sm font-medium hover:text-[#e68f0d]">O colégio</a>
-            <a href="#espacos" className="py-2 text-sm font-medium hover:text-[#e68f0d]">Espaços</a>
-            <a href="#comunidade" className="py-2 text-sm font-medium hover:text-[#e68f0d]">Comunidade</a>
+    <div className="min-h-screen overflow-x-hidden bg-white font-body text-[#082c58]">
+      <header className="relative z-40 bg-white shadow-[0_1px_8px_rgba(5,30,60,0.08)]">
+        <div className="mx-auto flex h-[77px] max-w-[1560px] items-center justify-between gap-5 px-5 sm:px-8 lg:px-[4.9%]">
+          <SchoolBrand />
+          <nav className="hidden items-center gap-8 text-[13px] font-bold xl:gap-10 lg:flex" aria-label="Navegação principal">
+            <a href="#inicio" className="border-b-2 border-[#ffa21b] py-2 text-[#062956]">Início</a>
+            <a href="#sobre" className="py-2 transition hover:text-[#e7930d]">Sobre Nós</a>
+            <a href="#colegio" className="py-2 transition hover:text-[#e7930d]">O Colégio</a>
+            <a href="#galeria" className="py-2 transition hover:text-[#e7930d]">Galeria</a>
+            <a href="#contacto" className="py-2 transition hover:text-[#e7930d]">Contacto</a>
           </nav>
-          <Link to="/login" className="hidden shrink-0 items-center gap-3 rounded-full bg-gradient-to-r from-[#ffbc34] to-[#ff9b19] px-6 py-3 text-sm font-extrabold text-[#082d59] shadow-sm transition hover:brightness-105 sm:inline-flex">
-            <span>Aceder ao EduCore</span><ArrowRight size={18} aria-hidden="true" />
+          <Link to="/login" className="hidden min-h-11 shrink-0 items-center gap-3 rounded-[19px] bg-gradient-to-r from-[#ffb62b] to-[#ff941a] px-6 text-[13px] font-extrabold text-[#052753] transition hover:brightness-105 sm:inline-flex">
+            Aceder ao EduCore <ArrowRight size={18} aria-hidden="true" />
           </Link>
-          <button type="button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} className="ml-auto rounded-lg border border-[#082d59]/20 p-2.5 sm:ml-0 lg:hidden">
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          <button
+            type="button"
+            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(value => !value)}
+            className="ml-auto rounded-lg border border-[#082c58]/20 p-2.5 lg:hidden sm:ml-0"
+          >
+            {menuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
         </div>
         {menuOpen && (
-          <nav aria-label="Menu móvel" className="absolute inset-x-0 top-full flex flex-col gap-1 border-t border-slate-100 bg-white px-6 py-5 shadow-xl lg:hidden">
-            <a href="#inicio" onClick={() => setMenuOpen(false)} className="py-3 font-semibold">Início</a>
-            <a href="#sobre" onClick={() => setMenuOpen(false)} className="py-3 font-semibold">Sobre nós</a>
-            <a href="#colegio" onClick={() => setMenuOpen(false)} className="py-3 font-semibold">O colégio</a>
-            <a href="#espacos" onClick={() => setMenuOpen(false)} className="py-3 font-semibold">Espaços</a>
-            <a href="#comunidade" onClick={() => setMenuOpen(false)} className="py-3 font-semibold">Comunidade</a>
-            <Link to="/login" onClick={() => setMenuOpen(false)} className="mt-3 inline-flex items-center justify-center gap-3 rounded-full bg-[#ffae27] px-5 py-3 font-bold">Aceder ao EduCore <ArrowRight size={18}/></Link>
+          <nav className="absolute left-0 right-0 top-full flex flex-col gap-1 border-t border-slate-100 bg-white px-6 py-5 shadow-xl lg:hidden" aria-label="Menu móvel">
+            {[
+              ['Início', '#inicio'],
+              ['Sobre Nós', '#sobre'],
+              ['O Colégio', '#colegio'],
+              ['Galeria', '#galeria'],
+              ['Contacto', '#contacto'],
+            ].map(([label, href]) => (
+              <a key={href} href={href} onClick={() => setMenuOpen(false)} className="py-2.5 text-sm font-semibold">{label}</a>
+            ))}
+            <Link to="/login" onClick={() => setMenuOpen(false)} className="mt-3 inline-flex w-fit items-center gap-2 rounded-full bg-[#ffa920] px-5 py-3 text-sm font-bold">
+              Aceder ao EduCore <ArrowRight size={16} />
+            </Link>
           </nav>
         )}
       </header>
 
       <main>
-        <section id="inicio" aria-labelledby="hero-heading" className="relative isolate min-h-[650px] overflow-hidden bg-[#072d57] text-white sm:min-h-[570px] lg:min-h-[600px]">
-          <div className="absolute inset-0">
-            <SchoolPhoto src={media.campus} alt="Fachada do Colégio Horizonte do Futuro" priority imageClassName="object-center" />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#05254d] via-[#05254de8] to-[#05254d34] sm:from-[#05254d] sm:via-[#05254ddd] sm:to-transparent" aria-hidden="true" />
-          <div className="absolute bottom-0 right-0 top-[35%] hidden w-[46%] overflow-hidden sm:block" aria-hidden="true">
-            <div className="h-full w-full [mask-image:linear-gradient(to_right,transparent,black_24%)]">
-              <SchoolPhoto src={media.students} alt="" imageClassName="object-top" />
-            </div>
-          </div>
-          <div className="relative z-10 mx-auto flex min-h-[650px] max-w-[1560px] items-center px-6 pb-28 pt-14 sm:min-h-[570px] sm:px-12 sm:pb-24 lg:min-h-[600px] lg:px-16">
-            <div className="max-w-[750px]">
-              <p className="mb-5 text-[11px] font-extrabold uppercase tracking-[0.27em] text-[#ffcb52]">Colégio Horizonte do Futuro</p>
-              <h1 id="hero-heading" className="text-[clamp(2.65rem,5.6vw,6rem)] font-extrabold leading-[1.02] tracking-[-0.045em]">
-                O futuro do seu<br /><span className="text-[#ffb323]">filho começa aqui!</span>
+        <section id="inicio" aria-labelledby="horizonte-title" className="relative isolate h-[620px] overflow-hidden bg-[#082e58] text-white sm:h-[560px] lg:h-[520px]">
+          {/* Combined school + pupils photograph, as in the approved reference. */}
+          {!heroFailed ? (
+            <picture className="absolute inset-0 block">
+              <source media="(max-width: 639px)" srcSet={MEDIA.heroMobile} />
+              <img
+                src={MEDIA.hero}
+                alt="Fachada e alunos do Colégio Horizonte do Futuro"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                className="h-full w-full object-cover object-center"
+                onError={() => setHeroFailed(true)}
+              />
+            </picture>
+          ) : (
+            <>
+              <SchoolPhoto src={MEDIA.campus} alt="Fachada do colégio" eager position="center 45%" />
+              <div className="absolute inset-y-0 right-0 hidden w-[44%] overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_22%)] sm:block">
+                <SchoolPhoto src={MEDIA.students} alt="Alunos do colégio" eager position="center top" />
+              </div>
+            </>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#042954]/95 via-[#052d58]/80 to-[#052d58]/5 sm:from-[#042954]/95 sm:via-[#052d58]/70 sm:to-transparent" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#052954]/35 via-transparent to-transparent sm:hidden" aria-hidden="true" />
+          <div className="relative z-10 mx-auto flex h-full max-w-[1560px] items-center px-6 pb-12 sm:px-10 lg:px-[5.1%]">
+            <div className="max-w-[700px]">
+              <h1 id="horizonte-title" className="font-heading text-[clamp(2.45rem,5.2vw,4.4rem)] font-extrabold leading-[1.11] tracking-[-0.045em] drop-shadow-sm">
+                O futuro do seu filho<br /><span className="text-[#ffae21]">começa aqui!</span>
               </h1>
-              <p className="mt-6 max-w-lg text-base leading-7 text-white/90 sm:text-lg sm:leading-8">Educação de qualidade, disciplina e valores para acompanhar cada etapa de aprendizagem.</p>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <Link to="/login" className="inline-flex min-h-12 items-center gap-3 rounded-full bg-gradient-to-r from-[#ffba32] to-[#ff9c19] px-6 py-3 text-sm font-extrabold text-[#082d59] transition hover:brightness-110">Aceder ao EduCore <ArrowRight size={18} /></Link>
-                <a href="#sobre" className="inline-flex min-h-12 items-center gap-3 rounded-full border border-white/80 bg-[#082d59]/25 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/15">Conhecer o colégio <ArrowRight size={18} /></a>
+              <p className="mt-5 max-w-[555px] text-[17px] font-medium leading-[1.45] text-white/95 sm:text-[20px]">
+                Educação de qualidade, disciplina e valores para formar líderes do futuro.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <a href="#sobre" className="inline-flex min-h-[53px] items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#ffbf37] to-[#ff9d20] px-6 text-sm font-bold text-[#072b54] shadow-sm transition hover:brightness-105">
+                  Conhecer o Colégio <ArrowRight size={19} />
+                </a>
+                <Link to="/login" className="inline-flex min-h-[53px] items-center justify-center gap-3 rounded-full border-[1.5px] border-white bg-[#062f5c]/45 px-6 text-sm font-bold text-white transition hover:bg-[#062f5c]/75">
+                  Aceder ao EduCore <ArrowRight size={18} />
+                </Link>
               </div>
             </div>
           </div>
-          <svg className="pointer-events-none absolute -bottom-px left-0 z-20 h-14 w-full sm:h-20" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M0 20 C360 95 850 -8 1440 52 L1440 80 L0 80Z" fill="#ffa61c" />
-            <path d="M0 34 C340 97 860 8 1440 65 L1440 80 L0 80Z" fill="#fff" />
+          {/* Signature orange + navy wave: a visual motif, not a large page break. */}
+          <svg className="pointer-events-none absolute bottom-[-1px] left-0 z-20 h-[62px] w-full sm:h-[72px]" viewBox="0 0 1440 85" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#ffa31c" d="M0 45C230 2 462 8 676 47S1118 92 1440 32V85H0Z" />
+            <path fill="#082d59" d="M0 73C269 22 476 33 729 63S1119 91 1440 54V85H0Z" />
+            <path fill="#fff" d="M0 78C269 35 489 38 726 69S1120 94 1440 67V85H0Z" />
           </svg>
         </section>
 
-        <section id="colegio" aria-label="Valores da escola" className="relative z-20 mx-auto -mt-3 max-w-[1480px] px-4 pb-12 sm:-mt-6 sm:px-8">
-          <div className="grid gap-y-7 rounded-2xl bg-white px-5 py-8 shadow-[0_20px_80px_#082d5912] sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:gap-y-0 lg:py-9">
-            {benefits.map(({ icon: Icon, title, description }, i) => (
-              <div key={title} className={'flex items-start gap-4 px-2 sm:px-5 ' + (i > 0 ? 'lg:border-l lg:border-[#082d591a]' : '')}>
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#f9a21c] bg-[#fff4df] text-[#e89612]"><Icon size={24} strokeWidth={2.3}/></span>
-                <div><h2 className="text-sm font-extrabold leading-5 sm:text-base">{title}</h2><p className="mt-2 text-xs leading-5 text-slate-500 sm:text-sm">{description}</p></div>
+        <section id="colegio" aria-label="Valores do colégio" className="relative z-10 bg-white px-5 pb-7 pt-7 sm:px-8 lg:px-[3.6%] lg:pb-7 lg:pt-8">
+          <div className="mx-auto grid max-w-[1510px] grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-4 md:gap-0">
+            {highlights.map(({ icon: Icon, title, description }, index) => (
+              <div key={title} className={'flex items-start gap-3 px-1 sm:gap-4 md:px-5 ' + (index > 0 ? 'md:border-l md:border-[#aebac6]/60' : '')}>
+                <span className="flex h-[53px] w-[53px] shrink-0 items-center justify-center rounded-full border-[2px] border-[#ff9e17] text-[#f99714] sm:h-[63px] sm:w-[63px]">
+                  <Icon className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={2.15}/>
+                </span>
+                <div className="min-w-0">
+                  <h2 className="max-w-[190px] font-heading text-[12px] font-extrabold leading-[1.3] sm:text-[15px]">{title}</h2>
+                  <p className="mt-1 max-w-[230px] text-[11px] leading-[1.42] text-[#66707b] sm:text-[13px]">{description}</p>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        <section id="sobre" className="mx-auto grid max-w-[1480px] items-center gap-12 px-6 pb-24 pt-12 sm:px-10 lg:grid-cols-[0.86fr_1.14fr] lg:gap-20 lg:px-14 lg:pb-32">
-          <div>
-            <p className="mb-5 text-xs font-extrabold uppercase tracking-[0.15em] text-[#e99615]">Sobre o colégio</p>
-            <h2 className="text-[clamp(2.35rem,4vw,4.8rem)] font-extrabold leading-[1.06] tracking-[-0.045em]">Construindo sonhos,<br /><span className="text-[#e9981a]">formando futuros.</span></h2>
-            <div className="my-7 h-1 w-16 rounded-full bg-[#ffaf23]" />
-            <p className="max-w-xl text-base leading-8 text-[#607087]">No Colégio Horizonte do Futuro, a aprendizagem é o início de uma jornada de descoberta, crescimento e novas oportunidades.</p>
-            <p className="mt-5 max-w-xl text-base leading-8 text-[#607087]">A nossa comunicação destaca a educação, os valores e o acompanhamento dos alunos como pilares dessa caminhada.</p>
-            <a href="#espacos" className="mt-8 inline-flex items-center gap-2 border-b-2 border-[#ffaf23] pb-2 text-sm font-bold">Conhecer os nossos espaços <ArrowRight size={18}/></a>
-          </div>
-          <div className="relative min-h-[370px] overflow-hidden rounded-2xl sm:min-h-[520px]">
-            <SchoolPhoto src={media.students} alt="Alunos com uniforme do Colégio Horizonte do Futuro" imageClassName="object-center" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#062954]/70 to-transparent" />
-            <p className="absolute bottom-8 left-8 max-w-xs text-2xl font-bold leading-tight text-white">Um horizonte de possibilidades.</p>
+        <section id="galeria" aria-labelledby="gallery-title" className="bg-white px-4 pb-[82px] sm:px-8 lg:px-[3.2%] lg:pb-[92px]">
+          <h2 id="gallery-title" className="sr-only">Espaços e instalações do Colégio Horizonte do Futuro</h2>
+          <div className="mx-auto grid max-w-[1510px] gap-3 md:grid-cols-3">
+            {spaces.map(({ image, fallback, alt, title, description, icon: Icon, position }) => (
+              <article key={title} className="group relative h-[245px] overflow-hidden rounded-xl bg-[#113a60] sm:h-[285px] lg:h-[270px]">
+                <SchoolPhoto src={image} fallbackSrc={fallback} alt={alt} position={position} className="transition-transform duration-700 group-hover:scale-[1.035]"/>
+                <div className="absolute inset-x-0 bottom-0 h-[135px] bg-gradient-to-t from-[#041c3b]/95 via-[#041c3b]/70 to-transparent" aria-hidden="true" />
+                <div className="absolute inset-x-0 bottom-0 flex items-end gap-3 px-4 pb-5 text-white sm:px-5">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffcd4c] to-[#ffa317] text-[#062c56]">
+                    <Icon size={24} strokeWidth={2.1} />
+                  </span>
+                  <div className="min-w-0 pb-0.5">
+                    <h3 className="font-heading text-[15px] font-extrabold leading-[1.2] sm:text-[17px]">{title}</h3>
+                    <p className="mt-1 text-xs leading-snug text-white/90">{description}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section id="espacos" className="bg-[#f7f9fc] px-6 py-20 sm:px-10 lg:px-14 lg:py-28">
-          <div className="mx-auto max-w-[1400px]">
-            <div className="mb-10 max-w-3xl"><p className="mb-4 text-xs font-extrabold uppercase tracking-[0.15em] text-[#e99615]">O nosso ambiente</p><h2 className="text-[clamp(2.3rem,4.5vw,4.8rem)] font-extrabold leading-[1.07] tracking-[-0.045em]">Espaços para aprender, explorar e crescer.</h2></div>
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="group relative h-[360px] overflow-hidden rounded-xl sm:h-[420px]"><SchoolPhoto src={media.classroom} alt="Sala de aula apresentada nos materiais do colégio" imageClassName="transition-transform duration-700 group-hover:scale-105" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#041b37]/95 via-[#041b37]/45 to-transparent px-6 pb-7 pt-24 text-white"><BookOpenText size={24} className="mb-3 text-[#ffc448]"/><h3 className="text-xl font-extrabold">Salas de aula</h3><p className="mt-1 text-sm text-white/80">Ambientes de aprendizagem</p></div></div>
-              <div className="group relative h-[360px] overflow-hidden rounded-xl sm:h-[420px]"><SchoolPhoto src={media.facilities} alt="Escadaria e espaços de circulação da escola" imageClassName="transition-transform duration-700 group-hover:scale-105" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#041b37]/95 via-[#041b37]/45 to-transparent px-6 pb-7 pt-24 text-white"><ShieldCheck size={24} className="mb-3 text-[#ffc448]"/><h3 className="text-xl font-extrabold">Infra-estrutura</h3><p className="mt-1 text-sm text-white/80">Instalações do colégio</p></div></div>
-              <div className="group relative h-[360px] overflow-hidden rounded-xl sm:h-[420px]"><SchoolPhoto src={media.campus} alt="Edifício do Colégio Horizonte do Futuro" imageClassName="transition-transform duration-700 group-hover:scale-105" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#041b37]/95 via-[#041b37]/45 to-transparent px-6 pb-7 pt-24 text-white"><Users size={24} className="mb-3 text-[#ffc448]"/><h3 className="text-xl font-extrabold">Ambiente escolar</h3><p className="mt-1 text-sm text-white/80">Espaços de convivência</p></div></div>
+        <section id="sobre" className="bg-[#fafbfd] px-6 py-[78px] sm:px-10 lg:px-[5.5%] lg:py-[92px]">
+          <div className="mx-auto grid max-w-[1420px] items-center gap-10 lg:grid-cols-[.9fr_1.1fr] lg:gap-[6%]">
+            <div>
+              <p className="mb-4 text-[13px] font-bold uppercase tracking-[0.1em] text-[#f09a12]">Sobre o Colégio</p>
+              <h2 className="font-heading text-[clamp(2.3rem,3.6vw,4rem)] font-extrabold leading-[1.12] tracking-[-0.045em]">
+                Construindo sonhos,<br />formando líderes do futuro.
+              </h2>
+              <span className="mt-6 block h-1 w-[58px] rounded-full bg-[#ffb324]" />
+              <p className="mt-6 max-w-[540px] text-base leading-[1.8] text-[#657184]">
+                O Colégio Horizonte do Futuro apresenta uma proposta educativa centrada na aprendizagem, disciplina, valores e acompanhamento dos alunos.
+              </p>
+              <p className="mt-4 max-w-[540px] text-base leading-[1.8] text-[#657184]">
+                Cada etapa da vida escolar abre novas oportunidades para aprender e crescer.
+              </p>
+              <a href="#contacto" className="mt-8 inline-flex items-center gap-2 border-b-2 border-[#ffad23] pb-2 text-sm font-extrabold">
+                Contactar o colégio <ArrowRight size={18} />
+              </a>
+            </div>
+            <div className="relative h-[350px] overflow-hidden rounded-xl shadow-[0_20px_60px_rgba(6,43,82,.12)] sm:h-[480px]">
+              <SchoolPhoto src={MEDIA.students} alt="Alunos com o uniforme laranja do Colégio Horizonte do Futuro" position="center 32%"/>
             </div>
           </div>
         </section>
 
-        <section id="comunidade" className="relative overflow-hidden bg-[#082d59] px-6 py-20 text-white sm:px-10 lg:px-14 lg:py-28">
-          <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "url('/school/horizon-graphic.svg')", backgroundSize: 'cover', backgroundPosition: 'center' }} aria-hidden="true"/>
-          <div className="relative mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
-            <div className="max-w-4xl"><p className="mb-5 text-xs font-extrabold uppercase tracking-[0.17em] text-[#ffc448]">Escola e família conectadas</p><h2 className="text-[clamp(2.7rem,5vw,5.6rem)] font-extrabold leading-[1.05] tracking-[-0.045em]">Acompanhar o presente.<br /><span className="text-[#ffc448]">Construir o amanhã.</span></h2><p className="mt-7 max-w-xl text-base leading-8 text-white/80">O portal EduCore liga alunos, encarregados de educação, professores e equipas escolares numa experiência digital integrada.</p></div>
-            <Link to="/login" className="inline-flex shrink-0 items-center gap-3 rounded-full bg-[#ffb22d] px-7 py-4 text-sm font-extrabold text-[#082d59] transition hover:bg-[#ffca5b]">Aceder ao portal <ArrowRight size={19}/></Link>
+        <section id="contacto" className="relative overflow-hidden bg-[#082d59] px-6 py-20 text-white sm:px-10 lg:px-[5.5%] lg:py-24">
+          <div className="absolute inset-0 bg-[url('/school/horizon-graphic.svg')] bg-cover bg-center opacity-25" aria-hidden="true" />
+          <div className="relative mx-auto flex max-w-[1420px] flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+            <div>
+              <p className="mb-4 text-xs font-extrabold uppercase tracking-[0.19em] text-[#ffbd37]">Escola e família conectadas</p>
+              <h2 className="font-heading text-[clamp(2.3rem,4.5vw,4.9rem)] font-extrabold leading-[1.08] tracking-[-0.05em]">
+                Acompanhar o presente.<br /><span className="text-[#ffc443]">Construir o amanhã.</span>
+              </h2>
+              <p className="mt-6 max-w-xl text-base leading-7 text-white/80">
+                Alunos, encarregados de educação, professores e equipas escolares ligados através do portal EduCore.
+              </p>
+            </div>
+            <Link to="/login" className="inline-flex min-h-[53px] shrink-0 items-center gap-3 rounded-full bg-gradient-to-r from-[#ffbc36] to-[#ff9e1c] px-7 text-sm font-extrabold text-[#082c58]">
+              Aceder ao portal EduCore <ArrowRight size={19} />
+            </Link>
           </div>
         </section>
       </main>
-
-      <footer className="bg-[#061d3a] px-6 py-10 text-white sm:px-10 lg:px-14">
-        <div className="mx-auto flex max-w-[1400px] flex-col justify-between gap-8 border-b border-white/20 pb-8 sm:flex-row sm:items-end"><Brand onDark /><a href="#inicio" className="text-xs font-semibold uppercase tracking-widest text-white/70 hover:text-white">Voltar ao início ↑</a></div>
-        <div className="mx-auto flex max-w-[1400px] flex-col justify-between gap-3 pt-6 text-xs text-white/55 sm:flex-row"><span>Colégio Horizonte do Futuro · Moçambique</span><span>Experiência digital powered by EduCore · RIGHTWARE</span></div>
+      <footer className="bg-[#061f3d] px-6 py-9 text-white sm:px-10 lg:px-[5.5%]">
+        <div className="mx-auto flex max-w-[1420px] flex-wrap items-end justify-between gap-6 border-b border-white/15 pb-8">
+          <SchoolBrand inverse />
+          <a href="#inicio" className="text-xs font-semibold uppercase tracking-[0.12em] text-white/80">Voltar ao início ↑</a>
+        </div>
+        <div className="mx-auto flex max-w-[1420px] flex-col justify-between gap-2 pt-5 text-xs text-white/55 sm:flex-row">
+          <p>Colégio Horizonte do Futuro · Moçambique</p>
+          <p>Experiência digital EduCore · RIGHTWARE</p>
+        </div>
       </footer>
     </div>
   );
