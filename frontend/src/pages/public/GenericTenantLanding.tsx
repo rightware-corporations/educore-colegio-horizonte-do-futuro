@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, BookOpen, GraduationCap, Menu, ShieldCheck, TrendingUp, UsersRound, X } from 'lucide-react';
+import { ArrowRight, BookOpen, ExternalLink, GraduationCap, Menu, ShieldCheck, TrendingUp, UsersRound, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 /**
@@ -288,9 +288,14 @@ export default function GenericTenantLanding() {
                 Alunos, encarregados de educação, professores e equipas escolares ligados através do portal EduCore.
               </p>
             </div>
-            <Link to="/login" className="inline-flex min-h-[53px] shrink-0 items-center gap-3 rounded-full bg-gradient-to-r from-[#ffbc36] to-[#ff9e1c] px-7 text-sm font-extrabold text-[#082c58]">
-              Aceder ao portal EduCore <ArrowRight size={19} />
-            </Link>
+            <div className="flex flex-col items-start gap-4">
+              <Link to="/login" className="inline-flex min-h-[53px] shrink-0 items-center gap-3 rounded-full bg-gradient-to-r from-[#ffbc36] to-[#ff9e1c] px-7 text-sm font-extrabold text-[#082c58]">
+                Aceder ao portal EduCore <ArrowRight size={19} />
+              </Link>
+              <a href="https://www.instagram.com/colegiohorizontedofuturo123" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-white/90 underline decoration-[#ffb52a] underline-offset-4 hover:text-[#ffc443]">
+                Contactar via Instagram <ExternalLink size={16} />
+              </a>
+            </div>
           </div>
         </section>
       </main>
