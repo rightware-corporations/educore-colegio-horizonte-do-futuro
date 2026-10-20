@@ -28,28 +28,29 @@ A base funcional veio da implementação EduCore usada no Colégio Páscoa porqu
 - responsive/mobile work;
 - componentes e fluxos de apresentação já testados.
 
-A identidade Páscoa **não faz parte deste projecto**. Foi apenas fonte técnica da fundação.
+A identidade Páscoa é apenas material legado de origem e não deve determinar o novo design.
 
-## 4. Sanitização já efectuada
+## 4. Estado técnico actual
 
-Foram removidos da fundação:
+A fundação completa do Páscoa foi importada para este repositório para evitar reconstrução manual do sistema.
 
-- páginas públicas específicas do Páscoa;
-- login específico do Páscoa;
-- media e assets do Páscoa;
-- hostname Railway hardcoded do Páscoa;
-- metadata/social preview do Páscoa;
-- páginas públicas e assets específicos do Deus Connosco;
-- logos e fotografias institucionais de escolas anteriores;
-- workflows e handoffs antigos específicos dessas implementações.
+O runtime principal já foi neutralizado para **Colégio Horizonte do Futuro**:
 
-O projecto arranca agora com uma landing/login neutros ligados ao nome **Colégio Horizonte do Futuro**.
+- o tenant activo por defeito é apenas Horizonte do Futuro;
+- não existe resolução por hostname do Páscoa;
+- não existe fallback para Deus Connosco;
+- a landing principal usa a experiência genérica;
+- o login principal usa a experiência genérica;
+- title/metadata base apontam para Horizonte do Futuro;
+- o sistema interno EduCore é preservado.
+
+Ainda existem ficheiros legados Páscoa/Deus Connosco no repositório como referência técnica da base importada. Neste momento eles não devem ser tratados como conteúdo aprovado nem usados no deployment final. Serão removidos ou substituídos durante a adaptação visual.
 
 ## 5. Estado visual actual
 
-A identidade visual ainda **NÃO está definida**.
+A identidade visual final ainda **NÃO está definida**.
 
-Os valores de cor actualmente presentes no ficheiro de configuração são apenas placeholders técnicos para permitir build e navegação enquanto se estudam os materiais reais da escola.
+As cores actualmente presentes são placeholders técnicos até análise dos materiais reais da escola.
 
 Não inferir slogan, cores finais, contactos, morada, níveis de ensino, preços, vagas, campanhas ou actividades sem evidência fornecida pela escola ou pelos seus materiais actuais.
 
@@ -99,7 +100,7 @@ Evitar:
 
 A versão final só pode ser considerada pronta quando:
 
-- nenhuma identidade de Páscoa ou Deus Connosco aparece;
+- nenhuma identidade de Páscoa ou Deus Connosco aparece no runtime;
 - landing tem linguagem visual própria do Horizonte do Futuro;
 - desktop e mobile foram validados;
 - login mantém continuidade visual;
@@ -111,4 +112,4 @@ A versão final só pode ser considerada pronta quando:
 
 ## 11. Próximo passo exacto
 
-**Não redesenhar ainda por suposição.** Receber os screenshots/assets do Instagram e fazer primeiro uma leitura da identidade existente da escola; só depois implementar a landing final.
+Receber os screenshots/assets do Instagram e fazer primeiro uma leitura da identidade existente da escola; só depois implementar a landing final.
