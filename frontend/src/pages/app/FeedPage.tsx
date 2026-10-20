@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Newspaper, GraduationCap, Wallet, Megaphone, Calendar, ChevronRight } from 'lucide-react';
+import { Newspaper, GraduationCap, Wallet, Megaphone, Calendar, ChevronRight, type LucideIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { CategoryPill } from '@/components/knowledge/CategoryPill';
@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/states/EmptyState';
 import { cn } from '@/lib/utils';
 
 interface FeedItem {
-  icon: any;
+  icon: LucideIcon;
   category: string;
   title: string;
   description: string;

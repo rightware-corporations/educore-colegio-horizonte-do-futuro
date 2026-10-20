@@ -81,7 +81,7 @@ export function ScheduleView({ schedule, showTeacher = true, showClassGroup = fa
       ) : (
         <div className="space-y-1.5">
           {daySlots.map((slot) => {
-            const Component: any = onSlotClick ? 'button' : 'div';
+            const Component = onSlotClick ? 'button' : 'div';
             return (
             <Component
               key={slot.id}

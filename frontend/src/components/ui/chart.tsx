@@ -87,16 +87,30 @@ ${colorConfig
   );
 };
 
+type ChartTooltipItem = {
+  dataKey?: string | number;
+  name?: string | number;
+  value?: string | number | Array<string | number>;
+  payload?: Record<string, unknown> & { fill?: string };
+  color?: string;
+};
+
+type ChartLegendItem = {
+  dataKey?: string | number;
+  value?: string | number;
+  color?: string;
+};
+
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
       active?: boolean;
-      payload?: any[];
+      payload?: ChartTooltipItem[];
       label?: string;
-      labelFormatter?: (value: any, payload: any[]) => React.ReactNode;
-      formatter?: (value: any, name: any, item: any, index: number, payload: any) => React.ReactNode;
+      labelFormatter?: (value: React.ReactNode, payload: ChartTooltipItem[]) => React.ReactNode;
+      formatter?: (value: ChartTooltipItem["value"], name: ChartTooltipItem["name"], item: ChartTooltipItem, index: number, payload: ChartTooltipItem["payload"]) => React.ReactNode;
       color?: string;
       hideLabel?: boolean;
       hideIndicator?: boolean;
@@ -213,7 +227,7 @@ const ChartTooltipContent = React.forwardRef<
                         {nestLabel ? tooltipLabel : null}
                         <span className="text-muted-foreground">{itemConfig?.label || item.name}</span>
                       </div>
-                      {item.value && (
+                      {item.value !== undefined && item.value !== null && (
                         <span className="font-mono font-medium tabular-nums text-foreground">
                           {item.value.toLocaleString()}
                         </span>
@@ -236,7 +250,7 @@ const ChartLegend = RechartsPrimitive.Legend;
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
-      payload?: any[];
+      payload?: ChartLegendItem[];
       verticalAlign?: "top" | "bottom";
       hideIcon?: boolean;
       nameKey?: string;

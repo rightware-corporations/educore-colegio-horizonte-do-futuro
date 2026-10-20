@@ -112,7 +112,11 @@ export function TenantProvider({ children }: { children: ReactNode }) {
     setTenants((current) => current.map((tenant) => {
       if (tenant.id !== tenantId) return tenant;
       const modules = new Set(tenant.enabledModules);
-      enabled ? modules.add(module) : modules.delete(module);
+      if (enabled) {
+        modules.add(module);
+      } else {
+        modules.delete(module);
+      }
       return { ...tenant, enabledModules: Array.from(modules) };
     }));
   }, []);

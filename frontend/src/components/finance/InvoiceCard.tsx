@@ -1,4 +1,4 @@
-import { FileText, CreditCard, Eye, Download, RotateCcw } from 'lucide-react';
+import { FileText, CreditCard, Eye, Download, RotateCcw, type LucideIcon } from 'lucide-react';
 import { PaymentStatusBadge, type PaymentStatus } from './PaymentStatusBadge';
 import { cn } from '@/lib/utils';
 
@@ -14,7 +14,7 @@ interface InvoiceCardProps {
   category?: 'obligation' | 'payment' | 'receipt';
 }
 
-const actionMap: Partial<Record<PaymentStatus, { label: string; icon: any }>> = {
+const actionMap: Partial<Record<PaymentStatus, { label: string; icon: LucideIcon }>> = {
   pending: { label: 'Pay Now', icon: CreditCard },
   due_soon: { label: 'Pay Now', icon: CreditCard },
   overdue: { label: 'Pay Now', icon: CreditCard },

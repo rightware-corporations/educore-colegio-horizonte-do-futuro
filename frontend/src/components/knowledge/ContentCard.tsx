@@ -1,4 +1,4 @@
-import { FileText, Video, BookOpen, ExternalLink } from 'lucide-react';
+import { FileText, Video, BookOpen, ExternalLink, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ContentType = 'document' | 'video' | 'exercise' | 'link';
@@ -12,7 +12,7 @@ interface ContentCardProps {
   module?: string;
 }
 
-const typeIcons: Record<ContentType, any> = {
+const typeIcons: Record<ContentType, LucideIcon> = {
   document: FileText,
   video: Video,
   exercise: BookOpen,
