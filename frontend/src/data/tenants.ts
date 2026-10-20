@@ -7,9 +7,9 @@ export const ALL_TENANT_ROLES: UserRole[] = [
   'teacher',
   'pedagogy',
   'reception',
-  'executive',
   'secretary',
   'finance',
+  'executive',
 ];
 
 export const CORE_TENANT_MODULES: TenantModule[] = [
