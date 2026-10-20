@@ -19,13 +19,19 @@ function EditorialImage({ src, alt, className = '' }: { src: string; alt: string
   return <img src={src} alt={alt} className={className} loading={src === MEDIA.campus ? 'eager' : 'lazy'} onError={() => setFailed(true)} />;
 }
 
+function SchoolLogo() {
+  const [failed, setFailed] = useState(false);
+  return (
+    <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-white shadow-sm sm:h-12 sm:w-12">
+      {!failed ? <img src={MEDIA.logo} alt="" className="h-full w-full object-contain" onError={() => setFailed(true)} /> : <span className="text-xs font-black text-[#0a2c58]">HF</span>}
+    </span>
+  );
+}
+
 function Signature({ light = false }: { light?: boolean }) {
   return (
     <Link to="/" aria-label="Colégio Horizonte do Futuro — início" className="inline-flex min-w-0 items-center gap-3">
-      <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-white shadow-sm sm:h-12 sm:w-12">
-        <EditorialImage src={MEDIA.logo} alt="Logótipo do Colégio Horizonte do Futuro" className="h-full w-full object-contain" />
-        <span className="pointer-events-none absolute text-xs font-black text-[#0a2c58]">HF</span>
-      </span>
+      <SchoolLogo />
       <span className={`min-w-0 font-heading text-[12px] font-black uppercase leading-[1.2] tracking-[0.025em] sm:text-sm ${light ? 'text-white' : 'text-[#072b57]'}`}>
         Colégio Horizonte<br />do Futuro
       </span>
