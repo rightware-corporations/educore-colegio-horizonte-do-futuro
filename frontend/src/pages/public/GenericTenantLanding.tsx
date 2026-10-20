@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 
 const media = {
   campus: '/school/campus.webp',
-  campusMobile: '/school/campus-mobile.webp',
   students: '/school/students.webp',
-  studentsMobile: '/school/students-mobile.webp',
   classroom: '/school/classroom.webp',
   facilities: '/school/facilities.webp',
   logo: '/school/logo.webp',
@@ -35,7 +33,7 @@ function SchoolPhoto({
   return (
     <div className={'relative h-full w-full overflow-hidden bg-gradient-to-br from-[#0d3769] via-[#28618b] to-[#edb64a] ' + className}>
       {!hasError && (
-        <picture>
+        <picture className="absolute inset-0 block">
           {mobileSrc && <source media="(max-width: 639px)" srcSet={mobileSrc} />}
           <img
             src={src}
@@ -96,7 +94,7 @@ export default function GenericTenantLanding() {
       <main>
         <section id="inicio" aria-labelledby="hero-heading" className="relative isolate min-h-[650px] overflow-hidden bg-[#072d57] text-white sm:min-h-[570px] lg:min-h-[600px]">
           <div className="absolute inset-0">
-            <SchoolPhoto src={media.campus} mobileSrc={media.campusMobile} alt="Fachada do Colégio Horizonte do Futuro" priority imageClassName="object-center" />
+            <SchoolPhoto src={media.campus} alt="Fachada do Colégio Horizonte do Futuro" priority imageClassName="object-center" />
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#05254d] via-[#05254de8] to-[#05254d34] sm:from-[#05254d] sm:via-[#05254ddd] sm:to-transparent" aria-hidden="true" />
           <div className="absolute bottom-0 right-0 top-[35%] hidden w-[46%] overflow-hidden sm:block" aria-hidden="true">
@@ -144,7 +142,7 @@ export default function GenericTenantLanding() {
             <a href="#espacos" className="mt-8 inline-flex items-center gap-2 border-b-2 border-[#ffaf23] pb-2 text-sm font-bold">Conhecer os nossos espaços <ArrowRight size={18}/></a>
           </div>
           <div className="relative min-h-[370px] overflow-hidden rounded-2xl sm:min-h-[520px]">
-            <SchoolPhoto src={media.students} mobileSrc={media.studentsMobile} alt="Alunos com uniforme do Colégio Horizonte do Futuro" imageClassName="object-center" />
+            <SchoolPhoto src={media.students} alt="Alunos com uniforme do Colégio Horizonte do Futuro" imageClassName="object-center" />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#062954]/70 to-transparent" />
             <p className="absolute bottom-8 left-8 max-w-xs text-2xl font-bold leading-tight text-white">Um horizonte de possibilidades.</p>
           </div>
