@@ -35,6 +35,9 @@ import { PedagogyApprovals, PedagogyAssessmentsCalendar, PedagogyNotifications }
 import { ExecutiveDashboard, ExecutiveFinance, ExecutiveAcademic, ExecutiveEnrollment, ExecutiveReports, ExecutiveAudit } from '@/pages/role/ExecutivePages';
 import { ExecutiveApprovals, ExecutiveNotifications } from '@/pages/role/ExecutiveExtraPages';
 
+// Reception
+import { ReceptionWorkspace, ReceptionDashboard, ReceptionRequests, ReceptionDesk, ReceptionAdmissions, ReceptionAppointments, ReceptionReferrals, ReceptionNotifications } from '@/pages/role/ReceptionPages';
+
 // Secretary
 import { SecretaryDashboard, SecretaryAdmissions, SecretaryEnrollments, SecretaryStudents, SecretaryDocuments, SecretaryClasses, SecretarySchedule, SecretaryRegularity } from '@/pages/role/SecretaryPages';
 import { SecretaryAdmissionDetail, SecretaryStudentDetail, SecretaryDocumentBuilder, SecretaryNotifications } from '@/pages/role/SecretaryExtraPages';
@@ -140,6 +143,19 @@ export function AppRouter() {
             <Route path="executive/audit" element={<ExecutiveAudit />} />
             <Route path="executive/approvals" element={<ExecutiveApprovals />} />
             <Route path="executive/notifications" element={<ExecutiveNotifications />} />
+          </Route>
+
+          {/* ─── Reception zone (separate from Secretary) ─── */}
+          <Route element={<RoleGuard allowed={['reception']} />}>
+            <Route element={<ReceptionWorkspace />}>
+              <Route path="reception/dashboard" element={<ReceptionDashboard />} />
+              <Route path="reception/requests" element={<ReceptionRequests />} />
+              <Route path="reception/desk" element={<ReceptionDesk />} />
+              <Route path="reception/admissions" element={<ReceptionAdmissions />} />
+              <Route path="reception/appointments" element={<ReceptionAppointments />} />
+              <Route path="reception/referrals" element={<ReceptionReferrals />} />
+              <Route path="reception/notifications" element={<ReceptionNotifications />} />
+            </Route>
           </Route>
 
           {/* ─── Secretary zone ─── */}

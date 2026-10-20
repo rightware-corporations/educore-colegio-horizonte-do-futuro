@@ -4,6 +4,7 @@ export type UserRole =
   | 'teacher'
   | 'pedagogy'
   | 'executive'
+  | 'reception'
   | 'secretary'
   | 'finance';
 
@@ -22,6 +23,7 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   teacher: 'Professor',
   pedagogy: 'Pedagogia',
   executive: 'Direcção',
+  reception: 'Receção',
   secretary: 'Secretaria',
   finance: 'Finanças',
 };
@@ -32,6 +34,7 @@ export const ROLE_HOME: Record<UserRole, string> = {
   teacher: '/app/teacher/dashboard',
   pedagogy: '/app/pedagogy/dashboard',
   executive: '/app/executive/dashboard',
+  reception: '/app/reception/dashboard',
   secretary: '/app/secretary/dashboard',
   finance: '/app/finance/dashboard',
 };
@@ -42,6 +45,7 @@ export const ROLE_NOTIFICATIONS: Partial<Record<UserRole, string>> = {
   teacher: '/app/teacher/notifications',
   pedagogy: '/app/pedagogy/notifications',
   executive: '/app/executive/notifications',
+  reception: '/app/reception/notifications',
   secretary: '/app/secretary/notifications',
   finance: '/app/finance/notifications',
 };

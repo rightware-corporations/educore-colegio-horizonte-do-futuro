@@ -71,6 +71,16 @@ const ROLE_ITEMS: Record<UserRole, SearchEntry[]> = {
     { label: 'Auditoria', path: '/app/executive/audit', icon: Shield, category: 'Navegação' },
     { label: 'Definições', path: '/app/settings', icon: Settings, category: 'Navegação' },
   ],
+  reception: [
+    { label: 'Painel', path: '/app/reception/dashboard', icon: LayoutDashboard, category: 'Atendimento' },
+    { label: 'Pedidos', path: '/app/reception/requests', icon: ClipboardList, category: 'Atendimento' },
+    { label: 'Fila de atendimento', path: '/app/reception/desk', icon: Users, category: 'Atendimento' },
+    { label: 'Admissões iniciais', path: '/app/reception/admissions', icon: UserCheck, category: 'Atendimento' },
+    { label: 'Marcações', path: '/app/reception/appointments', icon: Calendar, category: 'Atendimento' },
+    { label: 'Encaminhamentos', path: '/app/reception/referrals', icon: MessageCircle, category: 'Atendimento' },
+    { label: 'Actualizações', path: '/app/reception/notifications', icon: Bell, category: 'Atendimento' },
+    { label: 'Definições', path: '/app/settings', icon: Settings, category: 'Navegação' },
+  ],
   secretary: [
     { label: 'Painel', path: '/app/secretary/dashboard', icon: LayoutDashboard, category: 'Navegação' },
     { label: 'Admissões', path: '/app/secretary/admissions', icon: UserCheck, category: 'Navegação' },

@@ -18,6 +18,9 @@ import {
   Shield,
   Receipt,
   Banknote,
+  Headset,
+  CalendarClock,
+  Send,
 } from 'lucide-react';
 import type { NavItem } from '@/types/navigation';
 import type { UserRole } from '@/types/roles';
@@ -89,6 +92,17 @@ const executiveNav: NavItem[] = [
   { label: 'Auditoria', path: '/app/executive/audit', icon: Shield },
 ];
 
+/* ─── Receção ─── */
+const receptionNav: NavItem[] = [
+  { label: 'Painel', path: '/app/reception/dashboard', icon: LayoutDashboard },
+  { label: 'Pedidos', path: '/app/reception/requests', icon: ClipboardList },
+  { label: 'Atendimento', path: '/app/reception/desk', icon: Headset },
+  { label: 'Admissões iniciais', path: '/app/reception/admissions', icon: UserCheck },
+  { label: 'Marcações', path: '/app/reception/appointments', icon: CalendarClock },
+  { label: 'Encaminhamentos', path: '/app/reception/referrals', icon: Send },
+  { label: 'Actualizações', path: '/app/reception/notifications', icon: Bell },
+];
+
 /* ─── Secretaria ─── */
 const secretaryNav: NavItem[] = [
   { label: 'Painel', path: '/app/secretary/dashboard', icon: LayoutDashboard },
@@ -122,6 +136,7 @@ export const ROLE_NAVIGATION: Record<UserRole, NavItem[]> = {
   teacher: teacherNav,
   pedagogy: pedagogyNav,
   executive: executiveNav,
+  reception: receptionNav,
   secretary: secretaryNav,
   finance: financeNav,
 };
@@ -162,6 +177,13 @@ const executiveBottom: NavItem[] = [
   { label: 'Auditoria', path: '/app/executive/audit', icon: Shield },
 ];
 
+const receptionBottom: NavItem[] = [
+  { label: 'Início', path: '/app/reception/dashboard', icon: LayoutDashboard },
+  { label: 'Pedidos', path: '/app/reception/requests', icon: ClipboardList },
+  { label: 'Marcações', path: '/app/reception/appointments', icon: CalendarClock },
+  { label: 'Encaminhar', path: '/app/reception/referrals', icon: Send },
+];
+
 const secretaryBottom: NavItem[] = [
   { label: 'Início', path: '/app/secretary/dashboard', icon: LayoutDashboard },
   { label: 'Alunos', path: '/app/secretary/students', icon: Users },
@@ -182,6 +204,7 @@ export const ROLE_BOTTOM_NAV: Record<UserRole, NavItem[]> = {
   teacher: teacherBottom,
   pedagogy: staffBottom,
   executive: executiveBottom,
+  reception: receptionBottom,
   secretary: secretaryBottom,
   finance: financeBottom,
 };

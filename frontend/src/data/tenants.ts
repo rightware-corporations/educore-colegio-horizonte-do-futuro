@@ -6,6 +6,7 @@ export const ALL_TENANT_ROLES: UserRole[] = [
   'guardian',
   'teacher',
   'pedagogy',
+  'reception',
   'executive',
   'secretary',
   'finance',
